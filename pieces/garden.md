@@ -26,7 +26,7 @@ Outdoor PoE Zigbee coordinator (SMLIGHT SLZB-06) on buried/outdoor Cat6; valve, 
 
 ## Integration path
 
-SLZB-06 (Ethernet/PoE) → Zigbee2MQTT (secondary adapter) → MQTT → HA. Valves/sensors pair to the garden coordinator. Pump via Zigbee/Wi-Fi plug ([energy](energy.md) pattern).
+SLZB-06 (Ethernet/PoE) → Zigbee2MQTT (secondary adapter) → MQTT → HA. Valves/sensors pair to the garden coordinator. Pump via Zigbee/Wi-Fi plug ([outlets](outlets.md) pattern).
 
 Logic sketch: daily morning trigger → soil dry AND no rain soon AND tank > threshold → run pump/valve for N minutes; emergency stop if no flow.
 

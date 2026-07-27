@@ -24,7 +24,7 @@ On this stack the TBR is not a TV or phone: it is the Dongle-M in Thread/OTBR mo
 
 ## Provides to
 
-- [switches](switches.md), [energy](energy.md), [lighting](lighting.md), [garden](garden.md) — Zigbee mesh
+- [switches](switches.md), [outlets](outlets.md), [lighting](lighting.md), [garden](garden.md) — Zigbee mesh
 - [security](security.md) — Thread/Matter path when OTBR is up on this dongle
 - HA — Zigbee via MQTT (Z2M); Matter-over-Thread via Matter + OTBR
 
@@ -37,9 +37,17 @@ Firmware/mode is switched from the Dongle-M web console. Prefer Z2M over ZHA for
 
 **Both at once:** Dongle-M can do Zigbee + Thread (Sonoff multiprotocol / Silicon Labs multiprotocol path). That is the intended “one box” setup; if multiprotocol misbehaves, fall back to Zigbee-only on Dongle-M and add a second Thread stick later — not the expected plan.
 
+## Two meshes (do not mix)
+
+| Mesh | Grown by | Not grown by |
+|------|----------|--------------|
+| **Zigbee** | Dual-/single-gang switches ([switches](switches.md)), Zigbee plugs ([outlets](outlets.md)) | Matter-over-Wi‑Fi, Thread-mode H2 |
+| **Thread** | Matter-over-Thread outlets/plugs ([outlets](outlets.md)) | Zigbee switches/plugs, Matter-over-Wi‑Fi |
+
 ## Notes
 
 - PoE placement can be away from the Mini PC (better RF, less USB fuss) — treat it like a small network appliance with a DHCP reservation. Prefer Dongle-M near the door if the lock is the weak link.
-- If Thread range is still weak: add **mains Matter-over-Thread smart plugs** as Thread routers (wall Thread sockets are rare). Prefer **Aqara Power Plug H2 EU** in **Thread/Matter mode** (not Zigbee mode). Zigbee plugs and Matter-over-Wi-Fi do **not** extend Thread.
+- If Thread range is still weak: add a mains **Matter-over-Thread** outlet as a Thread router — Aqara **Power Plug H2** (plug-in) or **Wall Outlet H2 EU** (in-wall). Pair in **Thread/Matter mode**, not Zigbee. Product table: [outlets](outlets.md).
+- Zigbee plugs and Matter-over-Wi‑Fi do **not** extend Thread. Thread outlets do **not** extend Zigbee.
 - Android TV / Xiaomi box are HA clients only ([remote-access](remote-access.md)), not a TBR.
 - Garden may still add a second Zigbee coordinator (SLZB-06) later — see [garden](garden.md).

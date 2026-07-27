@@ -13,7 +13,7 @@ Hallway/bathroom motion lights; sunset outdoor/garden lights later; room scenes 
 ## Depends on
 
 - [radio](radio.md) — Zigbee bulbs/sensors or switch-controlled loads
-- Motion / climate sensors (battery Zigbee OK; they do not route — need a room [switches](switches.md) router or plug)
+- Motion / climate sensors (battery Zigbee OK; they do not route — need a room [switches](switches.md) router or [outlets](outlets.md) plug)
 - [switches](switches.md) for relay loads and/or HA events
 
 ## Provides to

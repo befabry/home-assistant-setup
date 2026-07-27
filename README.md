@@ -16,11 +16,12 @@ Local-first home automation study. Vendor-agnostic (Zigbee, Wi-Fi, Thread, Matte
 | [pieces/server.md](pieces/server.md) | Mini PC / Debian / Docker host |
 | [pieces/network.md](pieces/network.md) | DHCP reservations, IP plan |
 | [pieces/radio.md](pieces/radio.md) | Dongle, Zigbee2MQTT, MQTT, Matter/Thread |
-| [pieces/switches.md](pieces/switches.md) | Zigbee vs Matter switches; mesh role |
+| [pieces/switches.md](pieces/switches.md) | Zigbee wall modules; mesh + light/fan |
+| [pieces/outlets.md](pieces/outlets.md) | Zigbee plugs + Matter-over-Thread outlets |
 | [pieces/fans.md](pieces/fans.md) | Tuya fans → LocalTuya; season/hour/temp automations |
 | [pieces/heat-pump.md](pieces/heat-pump.md) | Atlantic heat pump |
 | [pieces/vmc.md](pieces/vmc.md) | Mechanical ventilation |
-| [pieces/energy.md](pieces/energy.md) | Zigbee plugs + monitoring |
+| [pieces/energy.md](pieces/energy.md) | Consumption view + away shedding |
 | [pieces/lighting.md](pieces/lighting.md) | Bulbs, motion, switch scenes |
 | [pieces/security.md](pieces/security.md) | Lock, doorbell/cameras, Thread TBR |
 | [pieces/garden.md](pieces/garden.md) | 2026 irrigation + PoE Zigbee |
@@ -37,6 +38,7 @@ flowchart LR
   OTBR --> HA
   Switches[ZigbeeSwitches] --> Z2M
   Plugs[ZigbeePlugs] --> Z2M
+  ThreadOutlets[ThreadOutlets] --> OTBR
   Fans[TuyaFans] --> LocalTuya[LocalTuya]
   LocalTuya --> HA
   HeatPump[AtlanticHeatPump] --> Overkiz[Overkiz]

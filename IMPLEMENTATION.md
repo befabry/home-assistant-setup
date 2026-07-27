@@ -55,19 +55,19 @@ Phase 1 spend ceiling (server + radio + switches + fans + starter sensors): roug
 
 ---
 
-## Step 4 — Energy & lighting
+## Step 4 — Outlets, energy & lighting
 
-**Goal:** Plugs as routers + energy view; motion lighting basics.
+**Goal:** Plugs as Zigbee routers; energy view from metering models; motion lighting basics.
 
-**Pieces:** [energy](pieces/energy.md), [lighting](pieces/lighting.md)
+**Pieces:** [outlets](pieces/outlets.md), [energy](pieces/energy.md), [lighting](pieces/lighting.md)
 
 **Prerequisites:** Zigbee mesh healthy (Step 1 switches/radio).
 
 **Done when:**
-- [ ] Zigbee plugs paired (prefer energy-monitoring models)
+- [ ] Zigbee plugs paired (prefer energy-monitoring models where you want Wh)
+- [ ] Energy dashboard shows at least one metered load
 - [ ] Motion → light automation for at least one zone
 - [ ] Optional: switch double-tap / scene hook noted
-
 ---
 
 ## Steps 5–6 — Security & remote access

@@ -1,32 +1,36 @@
 # Energy
 
-**Phase:** 1 (Step 4)
+**Phase:** 1 (Step 4) — view; shedding can wait until presence is trustworthy
 
 ## Goal
 
-See consumption of key always-on / high-draw loads and cut non-essentials when away.
+See consumption of key always-on / high-draw loads, and later cut non-essentials when away. Hardware that reports power lives on [outlets](outlets.md) (and optional metering switches) — this piece is the **automations and dashboards**, not the mesh plan.
 
 ## Role
 
-Zigbee smart plugs (and optional USB repeaters): measure usage where useful, and — more importantly early on — **propagate the Zigbee mesh** without rewiring fan or light boxes.
+- **Observe:** power / energy entities from metering Zigbee plugs (or `MINI-ZB1GSP`) into HA history + a simple energy view.
+- **Act (later):** turn off shedable loads when the house is empty — never fans, heat pump, or VMC as a blunt “away” kill.
+
+Zigbee/Thread mesh strategy is [outlets](outlets.md) and [switches](switches.md), not here.
 
 ## Depends on
 
+- [outlets](outlets.md) — metering Zigbee plugs (or wall metering switch)
 - [radio](radio.md) — Zigbee2MQTT
+- Optional [remote-access](remote-access.md) — presence for away shedding
 
 ## Provides to
 
-- HA — power/energy sensors + switch entities via MQTT
-- Zigbee mesh — primary easy routers in rooms that have [fans](fans.md) or weak RF
-- Away / load-shedding for loads that *may* be cut (not the fans themselves)
+- HA — energy dashboard / history; away load-shedding automations when ready
 
 ## Integration path
 
-Zigbee plugs (e.g. Sonoff S40ZB Lite / S60ZB) → Zigbee2MQTT → HA. Optional pure repeaters (e.g. ZBMICRO on a USB PSU) when you only need mesh, not a switched outlet.
+Metering devices already in Z2M → pick entities for the HA energy dashboard → optional automations on power thresholds or presence.
+
+No separate energy gateway planned for Phase 1.
 
 ## Notes
 
-- **Yes — sockets are the easy Zigbee mesh path.** Fans are Wi-Fi; Zigbee mesh lives on Zigbee plugs/repeaters/[switches](switches.md). For **Thread** mesh (U400), use separate Matter-over-Thread plugs — [radio](radio.md) (Aqara H2 in Thread mode).
-- Leave plugs on loads that stay powered (or use a repeater). Do not use a plug to hard-cut a Tuya fan’s supply.
-- Prefer metering plugs when you also want energy view; cheap router plugs/repeaters are enough for mesh-only.
-- No separate energy gateway planned for Phase 1.
+- Prefer metering plugs on loads you care about (PC, washer, always-on junk); mesh-only plugs need not meter.
+- Do not put consumption goals on Thread H2 outlets — they exist for the lock mesh ([outlets](outlets.md)).
+- Fans stay Wi-Fi / LocalTuya; do not use plug cut-off as fan “off”.

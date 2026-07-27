@@ -11,7 +11,7 @@ Automate five Tuya DC ceiling fans from Home Assistant: season, hours, temperatu
 - **Summer:** in set hours, if room temp in a band → fan on, forward, speed from temp.
 - **Winter:** in set hours → reverse, low speed (push warm air down); optional link to [heat-pump](heat-pump.md).
 - **Fan light:** when on, brightness follows an hour-of-day curve (HA sets it — no wall dimmer).
-- Manual override: Orb-ZBW2 on/off, fan remote, Companion.
+- Manual override: wall switch ([switches](switches.md)), fan remote, Companion.
 
 Cloud Tuya avoided; LocalTuya on LAN.
 
@@ -31,9 +31,66 @@ Cloud Tuya avoided; LocalTuya on LAN.
 
 Tuya Wi-Fi fans → LocalTuya (HACS) → Home Assistant → **automations**.
 
-Wall: dual-gang **Orb-ZBW2** ([switches](switches.md)) — gang 1 room light or unused; gang 2 fan feed with **detach** (fan always powered). Remotes for occasional manual dim/speed.
+Wall: dual-gang module ([switches](switches.md)) when light + fan share a box; else single-gang detached on the fan feed. Gang/channel with **detach**, fan always powered. Remotes for occasional manual dim/speed.
 
 Never put a phase-cut dimmer or classic multi-speed switch on the fan mains.
+
+### How it fits together (dual-gang room)
+
+Gang 1 cuts the room light for real. Gang 2 keeps the fan **always powered**; the paddle is only a Zigbee event into HA, which talks to the fan over Wi‑Fi via LocalTuya (commands and state both ways).
+
+```mermaid
+graph TD
+  subgraph mains [Mains]
+    L[L and N]
+  end
+
+  subgraph wall [Dual-gang Zigbee module]
+    MOD[MINI-ZB2GS or Orb-ZBW2]
+    G1[Gang 1 relay - light]
+    G2[Gang 2 relay - always on]
+  end
+
+  subgraph paddles [Wall paddles]
+    P1[Paddle 1]
+    P2[Paddle 2]
+  end
+
+  subgraph loads [Loads]
+    Light[Room light]
+    Fan[Tuya DC fan Wi-Fi]
+  end
+
+  subgraph zigbee [Zigbee path]
+    Temp[Room temp sensor]
+    Z2M[Zigbee2MQTT]
+    MQTT[Mosquitto]
+  end
+
+  subgraph lan [LAN and control]
+    LT[LocalTuya]
+    HA[Home Assistant]
+  end
+
+  L --> MOD
+  MOD --> G1
+  MOD --> G2
+  G1 --> Light
+  G2 --> Fan
+  P1 --> G1
+  P2 --> MOD
+  MOD --> Z2M
+  Temp --> Z2M
+  Z2M --> MQTT
+  MQTT --> HA
+  P2 --> Z2M
+  Z2M --> HA
+  Temp --> HA
+  Fan --> LT
+  LT --> Fan
+  LT --> HA
+  HA --> LT
+```
 
 ## Target automations
 
@@ -64,8 +121,8 @@ ponytail: ship one automation package after all five fans + per-room temp exist.
 
 ## Notes
 
-- Fans are **Wi-Fi**, not Zigbee. Mesh for sensors = [switches](switches.md) / [energy](energy.md).
-- Orb-ZBW2 fan gang: `detach_relay_outlet` ENABLE, relay left on.
+- Fans are **Wi-Fi**, not Zigbee. Mesh for sensors = [switches](switches.md) / [outlets](outlets.md).
+- Fan gang: `detach_relay_outlet` ENABLE, relay left on — see [switches](switches.md).
 - Fan-integrated light is LocalTuya only; a separate room light can use a real relay on its own circuit.
 - If a fan goes “offline” after reboot, check DHCP reservation first.
 - Five fans in scope for Step 3 — see [IMPLEMENTATION](../IMPLEMENTATION.md).
